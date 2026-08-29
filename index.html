@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Program Latihan 11 Minggu</title>
+<style>
+  :root{
+    --navy:#0d1b2e;
+    --blue:#1d6fb8;
+    --green:#1f7a4d;
+    --purple:#5b2a91;
+    --magenta:#8e2f7a;
+    --black:#15181f;
+    --gray:#5c5c5c;
+    --paper:#f4f1ea;
+    --line:#d8d2c4;
+    --ink:#1a1a1a;
+    --gold:#f0b429;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI', Arial, sans-serif;
+    background:#e9e4d8;
+    color:var(--ink);
+    padding:20px;
+  }
+  .page-title{
+    text-align:center;
+    color:var(--navy);
+    margin:0 0 4px 0;
+    font-size:28px;
+    letter-spacing:0.5px;
+  }
+  .page-sub{
+    text-align:center;
+    color:#555;
+    margin:0 0 20px 0;
+    font-size:14px;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    max-width:1900px;
+    margin:0 auto;
+  }
+  @media (max-width:1500px){ .grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:800px){ .grid{grid-template-columns:1fr;} }
+
+  .card{
+    background:var(--paper);
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:0 2px 6px rgba(0,0,0,0.25);
+    border:1px solid #c9c2ae;
+  }
+  .card-head{
+    background:var(--navy);
+    color:#fff;
+    padding:10px 12px 8px;
+    text-align:center;
+  }
+  .card-head .num{
+    font-size:20px;
+    font-weight:800;
+    letter-spacing:0.5px;
+  }
+  .card-head .phase{
+    color:var(--gold);
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:0.5px;
+    margin-left:6px;
+  }
+  .card-head .fokus{
+    font-size:10.5px;
+    color:#e8e8e8;
+    margin-top:3px;
+    font-weight:400;
+  }
+  .days{
+    display:grid;
+    grid-template-columns:1fr 1fr 0.6fr 1fr 1fr 0.85fr 0.6fr;
+    min-height:0;
+  }
+  .day-head{
+    color:#fff;
+    text-align:center;
+    padding:6px 2px;
+    font-size:10px;
+    font-weight:700;
+    line-height:1.3;
+  }
+  .day-head .d1{font-size:10.5px;}
+  .day-head .d2{font-size:8.5px; font-weight:600; opacity:.95;}
+  .day-col{
+    background:#fbfaf6;
+    border-right:1px solid var(--line);
+    padding:6px 4px;
+  }
+  .day-col:last-child{border-right:none;}
+  .ex{
+    font-size:8.6px;
+    line-height:1.25;
+    padding:3px 1px;
+    border-bottom:1px dotted #e0dccf;
+    display:flex;
+    align-items:center;
+    gap:4px;
+  }
+  .ex:last-child{border-bottom:none;}
+  .ex .txt{flex:1; min-width:0;}
+  .ex .nm{font-weight:700; color:#1a1a1a; display:block;}
+  .ex .set{color:#444; font-weight:600;}
+  .ex-icon{
+    flex:0 0 auto;
+    width:20px;
+    height:20px;
+    background:#eef1e9;
+    border-radius:4px;
+    padding:1.5px;
+  }
+  .ex-icon svg{width:100%; height:100%; display:block;}
+  .cardio-col{
+    background:#f1efe9;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:6px 2px;
+    font-size:8.6px;
+    font-weight:700;
+    line-height:1.4;
+  }
+  .cardio-col .run{font-size:20px; margin-bottom:4px;}
+  .rest-col{
+    background:#e9e7e1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:6px 2px;
+    font-size:8.6px;
+    font-weight:700;
+    line-height:1.4;
+    color:#666;
+    border-right:1px solid var(--line);
+  }
+  .rest-col .zzz{font-size:18px; margin-bottom:4px;}
+  .footer-table{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr 1fr 1fr;
+    border-top:1px solid var(--line);
+    font-size:9px;
+  }
+  .footer-table .blank{grid-column:1;}
+  .footer-hdr{
+    background:var(--purple);
+    color:#fff;
+    text-align:center;
+    font-weight:700;
+    padding:3px 2px;
+    font-size:8.5px;
+  }
+  .footer-val{
+    text-align:center;
+    padding:5px 3px;
+    font-weight:700;
+    background:#fbfaf6;
+    border-right:1px solid var(--line);
+  }
+  .target{
+    text-align:center;
+    font-size:9px;
+    padding:6px 8px 8px;
+    background:#efe9dc;
+    font-weight:600;
+  }
+  .target b{color:var(--navy);}
+
+  .legend{
+    max-width:1900px;
+    margin:16px auto 0;
+    background:var(--navy);
+    color:#fff;
+    border-radius:8px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:0;
+  }
+  .legend .col{padding:14px 18px; border-right:1px solid rgba(255,255,255,0.15);}
+  .legend .col:last-child{border-right:none;}
+  .legend h4{color:var(--gold); margin:0 0 8px 0; font-size:13px;}
+  .legend ul{margin:0; padding-left:16px; font-size:11.5px; line-height:1.6;}
+  .legend p{margin:2px 0 6px; font-size:11.5px;}
+  @media (max-width:900px){ .legend{grid-template-columns:1fr 1fr;} }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+<g id="ico-base">
+</g>
+
+<symbol id="ico-press" viewBox="0 0 44 44">
+  <rect x="4" y="34" width="32" height="4" rx="1" fill="#16233a"/>
+  <circle cx="15" cy="29" r="3.2" fill="#16233a"/>
+  <path d="M18 30 L30 30" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M30 30 L36 36" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M30 30 L34 26" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M20 29 L20 12" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M25 29 L25 12" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <rect x="12" y="9" width="20" height="3.4" rx="1.5" fill="#16233a"/>
+  <circle cx="12" cy="10.7" r="4" fill="none" stroke="#16233a" stroke-width="2"/>
+  <circle cx="32" cy="10.7" r="4" fill="none" stroke="#16233a" stroke-width="2"/>
+</symbol>
+
+<symbol id="ico-pulldown" viewBox="0 0 44 44">
+  <circle cx="22" cy="12" r="3.4" fill="#16233a"/>
+  <path d="M22 15.5 L22 30" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M22 30 L15 39" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M22 30 L29 39" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <rect x="10" y="37" width="24" height="3.4" rx="1.5" fill="#16233a"/>
+  <path d="M22 18 L10 7" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M22 18 L34 7" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <rect x="7" y="4.5" width="30" height="3.2" rx="1.5" fill="#16233a"/>
+  <path d="M22 4.5 L22 1" stroke="#16233a" stroke-width="2.4" stroke-linecap="round"/>
+</symbol>
+
+<symbol id="ico-row" viewBox="0 0 44 44">
+  <circle cx="10" cy="16" r="3.4" fill="#16233a"/>
+  <path d="M10 19.5 L10 32" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M10 32 L5 41" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M10 32 L16 41" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M13 22 L28 22" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <rect x="27" y="19" width="5" height="6" rx="1.5" fill="#16233a"/>
+  <path d="M34 22 L40 22" stroke="#16233a" stroke-width="2.4" stroke-linecap="round"/>
+  <rect x="38" y="8" width="4" height="28" rx="1.5" fill="#16233a"/>
+</symbol>
+
+<symbol id="ico-lateral" viewBox="0 0 44 44">
+  <circle cx="22" cy="9" r="3.4" fill="#16233a"/>
+  <path d="M22 12.5 L22 29" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M22 29 L16 41" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M22 29 L28 41" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M22 17 L8 14" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M22 17 L36 14" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="6" cy="14" r="3.2" fill="none" stroke="#16233a" stroke-width="2.2"/>
+  <circle cx="38" cy="14" r="3.2" fill="none" stroke="#16233a" stroke-width="2.2"/>
+</symbol>
+
+<symbol id="ico-pushdown" viewBox="0 0 44 44">
+  <rect x="24" y="2" width="4" height="14" rx="1.5" fill="#16233a"/>
+  <circle cx="16" cy="10" r="3.4" fill="#16233a"/>
+  <path d="M16 13.5 L16 29" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M16 29 L11 40" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M16 29 L22 40" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M19 15 L26 18 L26 30" stroke="#16233a" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <rect x="23" y="29" width="7" height="4" rx="1.2" fill="#16233a"/>
+</symbol>
+
+<symbol id="ico-curl" viewBox="0 0 44 44">
+  <circle cx="18" cy="9" r="3.4" fill="#16233a"/>
+  <path d="M18 12.5 L18 29" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M18 29 L12 40" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M18 29 L24 40" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M21 17 L28 22 L24 30" stroke="#16233a" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <circle cx="24" cy="30" r="3.6" fill="none" stroke="#16233a" stroke-width="2.2"/>
+</symbol>
+
+<symbol id="ico-squat" viewBox="0 0 44 44">
+  <circle cx="22" cy="10" r="3.4" fill="#16233a"/>
+  <path d="M22 13.5 L22 24" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M22 24 L14 32 L15 41" stroke="#16233a" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M22 24 L30 32 L29 41" stroke="#16233a" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <rect x="8" y="8" width="28" height="3.4" rx="1.5" fill="#16233a"/>
+  <circle cx="10" cy="9.7" r="4" fill="none" stroke="#16233a" stroke-width="2"/>
+  <circle cx="34" cy="9.7" r="4" fill="none" stroke="#16233a" stroke-width="2"/>
+</symbol>
+
+<symbol id="ico-legpress" viewBox="0 0 44 44">
+  <circle cx="10" cy="26" r="3.4" fill="#16233a"/>
+  <path d="M10 29.5 L18 34" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M18 34 L18 41" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M13 24 L26 16" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M26 16 L38 10" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <rect x="35" y="4" width="4" height="16" rx="1.5" fill="#16233a"/>
+</symbol>
+
+<symbol id="ico-deadlift" viewBox="0 0 44 44">
+  <circle cx="16" cy="10" r="3.4" fill="#16233a"/>
+  <path d="M16 13.5 L20 24" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M20 24 L15 32 L16 41" stroke="#16233a" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M20 24 L25 32 L26 41" stroke="#16233a" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M16 16 L9 33" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <rect x="4" y="32" width="28" height="3.4" rx="1.5" fill="#16233a"/>
+  <circle cx="6" cy="33.7" r="4" fill="none" stroke="#16233a" stroke-width="2"/>
+  <circle cx="30" cy="33.7" r="4" fill="none" stroke="#16233a" stroke-width="2"/>
+</symbol>
+
+<symbol id="ico-legcurl" viewBox="0 0 44 44">
+  <circle cx="10" cy="12" r="3.4" fill="#16233a"/>
+  <path d="M10 15.5 L26 15.5" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M26 15.5 L34 15.5" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M34 15.5 L38 26" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <rect x="4" y="17" width="4" height="20" rx="1.5" fill="#16233a" opacity="0"/>
+</symbol>
+
+<symbol id="ico-legext" viewBox="0 0 44 44">
+  <circle cx="12" cy="12" r="3.4" fill="#16233a"/>
+  <path d="M12 15.5 L12 27" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M12 27 L22 30" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M22 30 L36 20" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+</symbol>
+
+<symbol id="ico-calf" viewBox="0 0 44 44">
+  <circle cx="22" cy="10" r="3.4" fill="#16233a"/>
+  <path d="M22 13.5 L22 27" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M22 27 L18 38 L24 38" stroke="#16233a" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M22 27 L28 38" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <rect x="14" y="39" width="16" height="2.6" rx="1.2" fill="#16233a"/>
+</symbol>
+
+<symbol id="ico-crunch" viewBox="0 0 44 44">
+  <circle cx="10" cy="22" r="3.4" fill="#16233a"/>
+  <path d="M10 25.5 L20 28" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M20 28 L20 16" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M20 28 L34 30" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M34 30 L34 40" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+</symbol>
+
+<symbol id="ico-ohp" viewBox="0 0 44 44">
+  <circle cx="22" cy="12" r="3.4" fill="#16233a"/>
+  <path d="M22 15.5 L22 29" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M22 29 L16 41" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M22 29 L28 41" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M22 20 L14 6" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M22 20 L30 6" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="13" cy="5" r="3" fill="none" stroke="#16233a" stroke-width="2"/>
+  <circle cx="31" cy="5" r="3" fill="none" stroke="#16233a" stroke-width="2"/>
+</symbol>
+
+<symbol id="ico-fly" viewBox="0 0 44 44">
+  <circle cx="22" cy="9" r="3.4" fill="#16233a"/>
+  <path d="M22 12.5 L22 29" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M22 29 L16 41" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M22 29 L28 41" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M22 16 Q10 16 8 24" stroke="#16233a" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M22 16 Q34 16 36 24" stroke="#16233a" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <circle cx="8" cy="25" r="2.6" fill="#16233a"/>
+  <circle cx="36" cy="25" r="2.6" fill="#16233a"/>
+</symbol>
+
+<symbol id="ico-facepull" viewBox="0 0 44 44">
+  <circle cx="16" cy="10" r="3.4" fill="#16233a"/>
+  <path d="M16 13.5 L16 29" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M16 29 L10 40" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M16 29 L22 40" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M18 16 L28 13" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M18 20 L28 22" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M28 13 L36 4" stroke="#16233a" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M28 22 L36 4" stroke="#16233a" stroke-width="2.4" stroke-linecap="round"/>
+</symbol>
+
+<symbol id="ico-ohtriceps" viewBox="0 0 44 44">
+  <circle cx="22" cy="10" r="3.4" fill="#16233a"/>
+  <path d="M22 13.5 L22 29" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M22 29 L16 41" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M22 29 L28 41" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M22 17 L22 4 L30 4 L30 15" stroke="#16233a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <circle cx="30" cy="15" r="3" fill="none" stroke="#16233a" stroke-width="2"/>
+</symbol>
+
+<symbol id="ico-splitsquat" viewBox="0 0 44 44">
+  <circle cx="16" cy="9" r="3.4" fill="#16233a"/>
+  <path d="M16 12.5 L18 24" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M18 24 L10 30 L8 41" stroke="#16233a" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M18 24 L28 28 L38 24" stroke="#16233a" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M16 14 L10 12" stroke="#16233a" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M16 14 L22 12" stroke="#16233a" stroke-width="2.6" stroke-linecap="round"/>
+</symbol>
+
+<symbol id="ico-hipthrust" viewBox="0 0 44 44">
+  <rect x="2" y="30" width="14" height="6" rx="2" fill="#16233a"/>
+  <circle cx="16" cy="26" r="3.2" fill="#16233a"/>
+  <path d="M16 29 L26 22" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M26 22 L34 30 L34 38" stroke="#16233a" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M26 22 L20 36 L26 38" stroke="#16233a" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <rect x="22" y="16" width="16" height="3.2" rx="1.4" fill="#16233a"/>
+</symbol>
+
+<symbol id="ico-legraise" viewBox="0 0 44 44">
+  <circle cx="12" cy="8" r="3.2" fill="#16233a"/>
+  <path d="M12 11.2 L12 30" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M8 11 L16 11" stroke="#16233a" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M12 22 L30 12" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M12 22 L20 33" stroke="#16233a" stroke-width="3" stroke-linecap="round"/>
+</symbol>
+</defs>
+</svg>
+
+<h1 class="page-title">PROGRAM LATIHAN 11 MINGGU</h1>
+<p class="page-sub">Upper / Lower / Push / Pull Split &middot; 4 Hari Latihan Beban + 1 Hari Jogging + 2 Hari Rest</p>
+
+<div class="grid" id="grid"></div>
+<div class="legend" id="legend"></div>
+
+<script>
+const COLORS = { blue:"#1d6fb8", green:"#1f7a4d", black:"#15181f", purple:"#5b2a91", magenta:"#8e2f7a", gray:"#5c5c5c" };
+
+// Reusable exercise lists per day-type (names identical across all weeks; only sets/reps change)
+const UPPER_A_NAMES = ["Incline Smith Machine","Lat Pulldown","Incline DB Press","Chest Supported Row","Lateral Raise","Triceps Pushdown","DB Curl"];
+const LOWER_A_NAMES = ["Smith Squat","Leg Press","Romanian Deadlift","Leg Curl","Leg Extension","Calf Raise","Cable Crunch"];
+const PUSH_NAMES = ["Incline Smith Machine","Incline DB Press","DB Shoulder Press","Cable Fly","Lateral Raise","Triceps Pushdown","Overhead Triceps Ext."];
+const PULL_NAMES = ["Lat Pulldown","Lat Pulldown (wide)","Seated Cable Row","Chest Supported Row","Face Pull","DB Curl","Hammer Curl"];
+
+const ICON_MAP = {
+  "Incline Smith Machine":"press", "Incline DB Press":"press",
+  "Lat Pulldown":"pulldown", "Lat Pulldown (wide)":"pulldown",
+  "Chest Supported Row":"row", "Seated Cable Row":"row",
+  "Lateral Raise":"lateral",
+  "Triceps Pushdown":"pushdown",
+  "DB Curl":"curl", "Hammer Curl":"curl",
+  "Smith Squat":"squat",
+  "Leg Press":"legpress",
+  "Romanian Deadlift":"deadlift", "RDL":"deadlift",
+  "Leg Curl":"legcurl",
+  "Leg Extension":"legext",
+  "Calf Raise":"calf",
+  "Cable Crunch":"crunch",
+  "DB Shoulder Press":"ohp",
+  "Cable Fly":"fly",
+  "Face Pull":"facepull",
+  "Overhead Triceps Ext.":"ohtriceps",
+  "Bulgarian Split Squat":"splitsquat",
+  "Hip Thrust (Smith)":"hipthrust",
+  "Leg Raise":"legraise"
+};
+
+function z(names, sets){ return names.map((n,i)=>[n, sets[i], ICON_MAP[n] || "press"]); }
+
+const weeks = [
+{num:1, phase:"ADAPTASI & FONDASI", fokus:"Konsistensi, tingkatkan kontrol & volume ringan",
+ a:z(UPPER_A_NAMES,["3x8-12","3x8-12","3x8-12","3x10-12","3x12-15","2x12-15","2x12-15"]),
+ b:z(LOWER_A_NAMES,["3x8-12","3x8-12","3x8-12","2x12-15","3x12-15","3x12-15","2x12-15"]),
+ c:z(PUSH_NAMES,["3x8-12","3x8-12","3x8-12","3x12-15","3x12-15","2x12-15","2x12-15"]),
+ d:z(PULL_NAMES,["3x8-12","3x10-12","3x8-12","2x12-15","3x12-15","3x12-15","2x12-15"]),
+ setreps:"3 Set / 8-12 Repetisi", rir:"RIR 2", rest:"60-90 dtk (Compound 2 menit)",
+ target:"Perbaiki teknik, tambah volume sedikit"},
+
+{num:2, phase:"PROGRESI VOLUME", fokus:"Tambah volume, tingkatkan reps",
+ a:z(UPPER_A_NAMES,["3x8-12","3x8-12","3x8-12","3x8-12","3x12-15","2x12-15","2x12-15"]),
+ b:z(LOWER_A_NAMES,["3x8-12","3x8-12","3x8-12","3x12-15","3x10-15","3x12-15","2x12-15"]),
+ c:z(PUSH_NAMES,["3x8-12","3x8-12","3x8-12","3x10-15","3x12-15","2x12-15","2x12-15"]),
+ d:z(PULL_NAMES,["3x8-12","3x8-12","3x8-12","2x12-15","3x10-15","3x10-15","2x12-15"]),
+ setreps:"3 Set / 8-12 Repetisi", rir:"RIR 1-2", rest:"60-90 dtk (Compound 2 menit)",
+ target:"Tambah total reps, dorong beban bertahap"},
+
+{num:3, phase:"PROGRESI VOLUME", fokus:"Volume stabil, dekati batas atas reps",
+ a:z(UPPER_A_NAMES,["3x6-12","3x6-12","3x6-12","3x6-12","3x12-15","2x10-15","2x10-15"]),
+ b:z(LOWER_A_NAMES,["3x6-12","3x6-12","3x6-12","3x10-15","3x10-15","2x10-15","2x12-15"]),
+ c:z(PUSH_NAMES,["3x6-12","3x6-12","3x6-12","3x10-15","3x10-15","2x10-15","2x10-15"]),
+ d:z(PULL_NAMES,["3x6-12","3x6-12","3x6-12","3x10-15","3x10-15","3x10-15","2x10-15"]),
+ setreps:"3 Set / 6-12 Repetisi", rir:"RIR 1-2", rest:"60-90 dtk (Compound 2 menit)",
+ target:"Raih 10-12 reps di sebagian besar set"},
+
+{num:4, phase:"INTENSIFIKASI I", fokus:"Naikkan beban 5-10%",
+ a:z(UPPER_A_NAMES,["4x6-10","4x8-10","3x8-10","3x8-10","3x10-15","2x10-15","2x10-15"]),
+ b:z(LOWER_A_NAMES,["4x6-10","4x8-10","3x8-10","3x10-15","3x10-15","4x10-15","2x12-15"]),
+ c:z(PUSH_NAMES,["4x6-10","4x8-10","3x6-10","3x10-15","3x12-15","2x10-15","2x10-15"]),
+ d:z(PULL_NAMES,["4x6-10","3x8-10","3x8-10","3x10-15","3x10-15","4x12-15","3x12-15"]),
+ setreps:"3-4 Set / 6-10 Repetisi", rir:"RIR 1-2", rest:"90 dtk (Compound 2-3 menit)",
+ target:"Tingkatkan beban, jaga teknik & form"},
+
+{num:5, phase:"INTENSIFIKASI II", fokus:"Tambah beban atau 1-2 reps lagi",
+ a:z(UPPER_A_NAMES,["4x6-10","4x8-10","3x8-10","3x8-10","3x10-15","2x10-15","2x10-15"]),
+ b:z(LOWER_A_NAMES,["4x6-10","4x8-10","3x8-10","3x10-15","3x10-15","4x10-15","2x12-15"]),
+ c:z(PUSH_NAMES,["4x6-10","4x8-10","3x6-10","3x10-15","3x12-15","2x10-15","2x10-15"]),
+ d:z(PULL_NAMES,["4x6-10","3x8-10","3x8-10","3x10-15","3x10-15","4x12-15","3x12-15"]),
+ setreps:"3-4 Set / 6-10 Repetisi", rir:"RIR 1", rest:"90 dtk (Compound 2-3 menit)",
+ target:"Dekati beban beratmu, jaga konsistensi"},
+
+{num:6, phase:"STRENGTH FOCUS I", fokus:"Angkat beban lebih berat, reps lebih rendah",
+ a:z(UPPER_A_NAMES,["4x4-6","4x6-8","3x6-8","3x6-8","2x10-15","2x8-12","2x8-12"]),
+ b:z(LOWER_A_NAMES,["4x4-6","4x5-6","4x6-8","3x8-12","3x8-12","4x8-12","2x10-15"]),
+ c:z(PUSH_NAMES,["4x4-6","4x5-6","3x4-6","2x8-12","2x10-15","2x8-12","2x8-12"]),
+ d:z(PULL_NAMES,["4x4-6","3x6-8","3x6-8","2x10-15","3x10-15","3x10-15","2x10-15"]),
+ setreps:"3-4 Set / 4-6 Repetisi", rir:"RIR 1", rest:"2-3 menit (Compound 2-3 menit)",
+ target:"Fokus kekuatan, beban berat, kualitas set"},
+
+{num:7, phase:"STRENGTH FOCUS II", fokus:"Capai beban tertinggi yang aman",
+ a:z(UPPER_A_NAMES,["4x4-6","4x5-6","3x6-8","3x6-8","3x10-15","2x8-12","2x8-12"]),
+ b:z(LOWER_A_NAMES,["4x4-6","4x5-6","4x5-6","3x8-10","3x8-10","4x8-10","2x10-15"]),
+ c:z(PUSH_NAMES,["4x4-6","4x5-6","3x4-6","3x8-10","2x10-15","2x8-12","2x8-12"]),
+ d:z(PULL_NAMES,["4x4-6","3x6-8","3x6-8","3x8-10","3x6-10","4x8-12","2x10-15"]),
+ setreps:"3-4 Set / 4-6 Repetisi", rir:"RIR 0-1", rest:"2-3 menit (Compound 2-3 menit)",
+ target:"Peak strength, jaga form & fokus"},
+
+{num:8, phase:"HYPERTROPHY PEAK I", fokus:"Volume tinggi, pump & pertumbuhan otot",
+ a:z(UPPER_A_NAMES,["3x8-12","3x8-12","3x10-12","3x10-12","3x12-15","3x10-15","3x10-15"]),
+ b:z(LOWER_A_NAMES,["3x8-12","3x10-12","3x10-12","3x10-15","3x10-15","4x12-15","3x12-15"]),
+ c:z(PUSH_NAMES,["3x8-12","3x10-12","3x10-12","3x12-15","3x12-15","3x10-15","3x10-15"]),
+ d:z(PULL_NAMES,["3x8-12","3x10-12","3x10-12","3x12-15","3x12-15","4x12-15","3x12-15"]),
+ setreps:"3-4 Set / 8-15 Repetisi", rir:"RIR 1-2", rest:"60-90 dtk (Compound 2 menit)",
+ target:"Maksimalkan volume, sensasi otot (pump)"},
+
+{num:9, phase:"HYPERTROPHY PEAK II", fokus:"Volume maksimal & variasi intensitas",
+ a:z(UPPER_A_NAMES,["3x8-12","3x8-12","3x10-12","3x10-12","3x12-15","3x10-15","3x10-15"]),
+ b:z(LOWER_A_NAMES,["3x8-12","3x10-12","3x10-12","3x10-15","3x10-15","4x12-15","3x12-15"]),
+ c:z(PUSH_NAMES,["3x8-12","3x10-12","3x10-12","3x12-15","3x12-15","3x10-15","3x10-15"]),
+ d:z(PULL_NAMES,["3x8-12","3x10-12","3x10-12","3x12-15","3x12-15","4x12-15","3x12-15"]),
+ setreps:"3-4 Set / 8-15 Repetisi", rir:"RIR 1-2", rest:"60-90 dtk (Compound 2 menit)",
+ target:"Dorong reps tinggi, pertumbuhan otot optimal"},
+
+{num:10, phase:"DELOAD", fokus:"Turunkan volume & intensitas, pulihkan tubuh",
+ a:z(UPPER_A_NAMES,["2-3x8-10","2-3x8-10","2-3x10","2-3x10","2x12-15","2x12-15","2x12-15"]),
+ b:z(LOWER_A_NAMES,["2-3x8-10","2-3x8-10","2-3x8-10","2x10-12","2x10-12","2-3x12-15","2x12-15"]),
+ c:z(PUSH_NAMES,["2-3x8-10","2-3x8-10","2-3x8-10","2x10-12","2x12-15","2x12-15","2x12-15"]),
+ d:z(PULL_NAMES,["2-3x8-10","2-3x10","2-3x8-10","2x10-12","2x10-12","2-3x12-15","2x12-15"]),
+ setreps:"2-3 Set / 8-12 Repetisi", rir:"RIR 2-3", rest:"60-90 dtk (Compound 2 menit)",
+ target:"Recovery, kurangi fatigue, siap untuk siklus baru"},
+
+{num:11, phase:"CONSOLIDATION", fokus:"Kembali ke beban moderat, konsolidasi hasil",
+ a:z(UPPER_A_NAMES,["3x6-10","3x6-10","3x6-10","3x6-10","3x10-15","2x10-15","2x10-15"]),
+ b:z(LOWER_A_NAMES,["3x6-10","3x6-10","3x6-10","3x10-15","3x10-15","3x10-15","2x12-15"]),
+ c:z(PUSH_NAMES,["3x6-10","3x6-10","3x6-10","3x10-12","2x12-15","2x10-15","2x10-15"]),
+ d:z(PULL_NAMES,["3x6-10","2-3x6-10","3x6-10","3x10-12","3x10-12","3x10-12","2x10-15"]),
+ setreps:"3 Set / 6-10 Repetisi", rir:"RIR 1-2", rest:"60-90 dtk (Compound 2 menit)",
+ target:"Konsolidasi hasil, evaluasi progres, siap siklus berikutnya"},
+];
+
+function exHTML(list){
+  return list.map((e,i)=>`<div class="ex"><span class="ex-icon"><svg><use href="#ico-${e[2]}"/></svg></span><span class="txt"><span class="nm">${i+1}. ${e[0]}</span><span class="set">${e[1]}</span></span></div>`).join("");
+}
+
+function cardHTML(w){
+  return `
+  <div class="card">
+    <div class="card-head">
+      <span class="num">MINGGU ${w.num}</span><span class="phase">${w.phase}</span>
+      <div class="fokus">Fokus: ${w.fokus}</div>
+    </div>
+    <div class="days">
+      <div class="day-head" style="background:${COLORS.blue}"><div class="d1">SENIN</div><div class="d2">UPPER</div></div>
+      <div class="day-head" style="background:${COLORS.green}"><div class="d1">SELASA</div><div class="d2">LOWER</div></div>
+      <div class="day-head" style="background:${COLORS.gray}"><div class="d1">RABU</div><div class="d2">REST</div></div>
+      <div class="day-head" style="background:${COLORS.purple}"><div class="d1">KAMIS</div><div class="d2">PUSH DAY</div></div>
+      <div class="day-head" style="background:${COLORS.magenta}"><div class="d1">JUMAT</div><div class="d2">PULL DAY</div></div>
+      <div class="day-head" style="background:${COLORS.black}"><div class="d1">SABTU</div><div class="d2">JOGGING</div></div>
+      <div class="day-head" style="background:${COLORS.gray}"><div class="d1">MINGGU</div><div class="d2">REST</div></div>
+    </div>
+    <div class="days">
+      <div class="day-col">${exHTML(w.a)}</div>
+      <div class="day-col">${exHTML(w.b)}</div>
+      <div class="rest-col"><div class="zzz">&#128564;</div>ISTIRAHAT<br>PENUH</div>
+      <div class="day-col">${exHTML(w.c)}</div>
+      <div class="day-col">${exHTML(w.d)}</div>
+      <div class="cardio-col"><div class="run">&#127939;</div>JOGGING<br>30 MENIT<br><br>PACE<br>7:00-7:30<br>/KM</div>
+      <div class="rest-col" style="border-right:none;"><div class="zzz">&#128564;</div>ISTIRAHAT<br>PENUH</div>
+    </div>
+    <div class="footer-table">
+      <div class="blank"></div>
+      <div class="footer-hdr">SET x REPS</div>
+      <div class="footer-hdr">RIR</div>
+      <div class="footer-hdr" style="grid-column: span 2;">REST</div>
+    </div>
+    <div class="footer-table">
+      <div class="blank"></div>
+      <div class="footer-val">${w.setreps}</div>
+      <div class="footer-val">${w.rir}</div>
+      <div class="footer-val" style="grid-column: span 2; border-right:none;">${w.rest}</div>
+    </div>
+    <div class="target"><b>TARGET:</b> ${w.target}</div>
+  </div>`;
+}
+
+document.getElementById('grid').innerHTML = weeks.map(cardHTML).join("");
+
+document.getElementById('legend').innerHTML = `
+  <div class="col">
+    <h4>KETERANGAN</h4>
+    <p><b>RIR (Reps in Reserve):</b></p>
+    <ul>
+      <li>0 = sampai gagal</li>
+      <li>1 = masih bisa 1 repetisi lagi</li>
+      <li>2 = masih bisa 2 repetisi lagi</li>
+      <li>3 = masih bisa 3 repetisi lagi</li>
+    </ul>
+  </div>
+  <div class="col">
+    <h4>ISTIRAHAT</h4>
+    <ul>
+      <li>Compound (besar): 2 - 3 menit</li>
+      <li>Isolation (kecil): 60 - 90 detik</li>
+    </ul>
+    <h4 style="margin-top:12px;">PRINSIP PROGRESI</h4>
+    <ul>
+      <li>Gunakan prinsip Double Progression</li>
+      <li>Jika bisa capai batas atas rep di semua set dengan RIR sesuai, naikkan beban 2,5-5%</li>
+      <li>Catat beban & reps setiap latihan</li>
+    </ul>
+  </div>
+  <div class="col">
+    <h4>WARM UP & COOL DOWN</h4>
+    <ul>
+      <li>Warm Up 5-10 menit (cardio ringan + mobilitas)</li>
+      <li>Lakukan 1-2 set pemanasan di gerakan utama</li>
+      <li>Cool Down 5 menit (stretching ringan)</li>
+    </ul>
+  </div>
+  <div class="col">
+    <h4>TARGET AKHIR</h4>
+    <ul>
+      <li>Berat badan: 79 kg &rarr; 70 kg</li>
+      <li>Turun lemak, naik massa otot & strength</li>
+      <li>Lingkar perut mengecil, badan lebih proporsional</li>
+    </ul>
+    <h4 style="margin-top:12px;">CATATAN PENTING</h4>
+    <ul>
+      <li>Tidur 7-9 jam per hari</li>
+      <li>Konsumsi protein 130-150 g/hari</li>
+      <li>Defisit kalori moderat & konsisten</li>
+      <li>Konsistensi latihan adalah kunci hasil</li>
+    </ul>
+  </div>
+`;
+</script>
+</body>
+</html>
